@@ -1,0 +1,19 @@
+<script id="tmpl-TodosPanel" type="text/html">
+	<div class="TodosPanel panel">
+		<div class="TodosPanel-header panel-header">
+			<span class="title">Todos(<font class="remaining-count">0</font> of <font class="count">0</font> remaining)</span>
+		</div>
+		<div class="TodosPanel-content panel-content">
+			<ul class="todosList"></ul>
+		</div>
+		<div class="TodosPanel-content panel-content panel-save">
+			<div class="TodosPanel-input"><input type='text' name="todoName" value="" /></div><div class="btn btn-primary btnCreate">Save</div>
+		</div>
+	</div>  
+</script>
+
+<script id="tmpl-todosPanel-todoItem" type="text/html">
+	<li class="todoItem {{if bedone==1}}done{{/if}}" data-entity="todo" data-entity-id="{{:id}}" data-entity-name="{{:name}}">
+		<input type="checkbox" {{if bedone==1}}checked{{/if}} /><span class="text">{{:name}}</span>
+	</li>
+</script>
