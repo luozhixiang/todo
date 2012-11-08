@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>ContactManager</title>
+    <title>TODO</title>
     
     <link rel="stylesheet" type="text/css" href="${_r.contextPath}/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="${_r.contextPath}/bootstrap/css/bootstrap-responsive.css" />
