@@ -68,10 +68,10 @@ public class DaoWebHandlers {
         	logger.error(ex.getMessage(), ex);
         }
         try {
-        	if(id.longValue()>0){
-        		return dao.save(obj);
-        	}else{
+        	if(id!=null && id.longValue()>0){
         		return dao.update(obj);
+        	}else{
+        		return dao.save(obj);
         	}
         } catch (Exception e) {
         	logger.error(e.getMessage(), e);
