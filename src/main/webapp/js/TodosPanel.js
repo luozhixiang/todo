@@ -26,6 +26,17 @@
 				});
 			},
 			
+			"click; .archive" : function() {
+				var view = this;
+		        var ids = [];
+		        view.$el.find(".todosList li.done").each(function(){
+		        	ids.push($(this).attr("data-entity-id"));
+		        });
+		        if(ids.length>0){
+		        	brite.dao("Todo").removeMany(ids);
+		        }
+			},
+			
 			"change; .todoItem input[type=checkbox]" : function(event) {
 				var view = this;
 				var $e = view.$el;

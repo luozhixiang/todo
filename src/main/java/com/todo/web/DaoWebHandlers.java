@@ -3,6 +3,8 @@ package com.todo.web;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONArray;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,6 +87,17 @@ public class DaoWebHandlers {
         IDao dao = daoRegistry.getDao(objType);
         BaseEntity entity = (BaseEntity) dao.get(id);
         dao.delete(entity);
+    }
+    
+    @WebActionHandler
+    public void daoDeleteMany(@WebParam("objType") String objType, @WebParam("obj_ids")  String jsonIds) {
+        Map jsonMap = JsonUtil.toMapAndList(jsonIds);
+        IDao dao = daoRegistry.getDao(objType);
+        JSONArray ids = (JSONArray) jsonMap.get("obj_ids");
+        for (Object id : ids.toArray()) {
+            BaseEntity entity = (BaseEntity) dao.get(Long.valueOf(id.toString()));
+            dao.delete(entity);
+        }
     }
 
 }
