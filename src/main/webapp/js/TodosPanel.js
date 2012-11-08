@@ -31,22 +31,29 @@
 				var $e = view.$el;
 				
 				var $this = $(event.currentTarget);
+				var entity = $this.bEntity();
 				var $li = $this.closest("li");
-				var id = $li.attr("data-entity-id");
-				var name = $li.attr("data-entity-name");
-				var data = {id:id , name : name };
+				var data = {id:entity.id , name : entity.name };
+				
 				if($this.is(":checked")){
 					data.bedone = 1;
 				}else{
 					data.bedone = 0;
 				}
-				brite.dao("Todo").update(data).done(function(){});
+				brite.dao("Todo").update(data).done(function(){
+					$li.toggleClass("done");
+					var bedonecount = $e.find(".todosList li.done").size();
+					view.$remainingcount.html(view.count-bedonecount);
+				});
 			}
 		},
 
 		daoEvents : {
-			"dataChange;Todo" : function() {
-				$(document).trigger("DO_TODOSPANEL_REFRESH");
+			"dataChange;Todo" : function(event) {
+				var action = event.daoEvent.action;
+				if(action!="update"){
+					$(document).trigger("DO_TODOSPANEL_REFRESH");
+				}
 			}
 		},
 
