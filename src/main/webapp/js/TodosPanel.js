@@ -13,50 +13,12 @@
 		},
 
 		events : {
-			//create todo when user click
-			"btap; .btnCreate" : function() {
-				var view = this;
-				var $e = view.$el;
-				var $name = $e.find("input[name='todoName']");
-				var name = $name.val();
-				var data = { name : name, bedone:0 };
-				
-				brite.dao("Todo").create(data).done(function(){
-					$name.val('');
-				});
-			},
 			
-			"click; .archive" : function() {
-				var view = this;
-		        var ids = [];
-		        view.$el.find(".todosList li.done").each(function(){
-		        	ids.push($(this).attr("data-entity-id"));
-		        });
-		        if(ids.length>0){
-		        	brite.dao("Todo").removeMany(ids);
-		        }
-			},
+			"btap; .btnCreate" : createTodo ,
 			
-			"change; .todoItem input[type=checkbox]" : function(event) {
-				var view = this;
-				var $e = view.$el;
-				
-				var $this = $(event.currentTarget);
-				var entity = $this.bEntity();
-				var $li = $this.closest("li");
-				var data = {id:entity.id , name : entity.name };
-				
-				if($this.is(":checked")){
-					data.bedone = 1;
-				}else{
-					data.bedone = 0;
-				}
-				brite.dao("Todo").update(data).done(function(){
-					$li.toggleClass("done");
-					var bedonecount = $e.find(".todosList li.done").size();
-					view.$remainingcount.html(view.count-bedonecount);
-				});
-			}
+			"click; .archive"  : doAchive ,
+			
+			"change; .todoItem input[type=checkbox]" : updateTodo
 		},
 
 		daoEvents : {
@@ -86,6 +48,50 @@
 	});
 	// --------- View Private Methods --------- //
 
+	function createTodo() {
+		var view = this;
+		var $e = view.$el;
+		var $name = $e.find("input[name='todoName']");
+		var name = $name.val();
+		var data = { name : name, bedone:0 };
+		
+		brite.dao("Todo").create(data).done(function(){
+			$name.val('');
+		});
+	}
+	
+	function doAchive() {
+		var view = this;
+        var ids = [];
+        view.$el.find(".todosList li.done").each(function(){
+        	ids.push($(this).attr("data-entity-id"));
+        });
+        if(ids.length>0){
+        	brite.dao("Todo").removeMany(ids);
+        }
+	}
+	
+	function updateTodo(event) {
+		var view = this;
+		var $e = view.$el;
+		
+		var $this = $(event.currentTarget);
+		var entity = $this.bEntity();
+		var $li = $this.closest("li");
+		var data = {id:entity.id , name : entity.name };
+		
+		if($this.is(":checked")){
+			data.bedone = 1;
+		}else{
+			data.bedone = 0;
+		}
+		brite.dao("Todo").update(data).done(function(){
+			$li.toggleClass("done");
+			var bedonecount = $e.find(".todosList li.done").size();
+			view.$remainingcount.html(view.count-bedonecount);
+		});
+	}
+	
 	function refresh(){
 		var view = this;
 		var $e = view.$el;
